@@ -41,13 +41,13 @@ async function showNewPhrase() {
     const data = await fetch(APICALL);
     const results = await data.json();
     console.log(results);
-    const phrase = results.content; //5c. je vais stocker la citation de dans une variable phrase
+    const phrase = results.content; //5c. je vais stocker la citation dans une variable phrase
     console.log(phrase);
 
     //5d. je vide la div où injecter les citations
     phraseToWrite.innerHTML = '';
 
-    //5e. je vais split chaque lettre des citations en une case de tableau
+    //5e. je vais split chaque lettre des citations dans une case de tableau
     phrase.split('').forEach(carac => {
         // 5f. puis creer un span pour chaque caractère
         const caracSpan = document.createElement('span');
@@ -61,6 +61,54 @@ async function showNewPhrase() {
 }
 
 showNewPhrase();
+
+//Vérification des entrées et des erreurs
+
+//7. à l'entrée de nouveaux caractères
+phraseTest.addEventListener('input', () => {
+
+    //7.b je récupère tous les spans qu'il y a dans la phrase à écrire
+    const arrPhrase = phraseToWrite.querySelectorAll('span');
+    //7c. je récupère toutes les lettres/valeurs que je suis en train d'écrire et les split dans un tableau
+    const arrTest = phraseTest.value.split('');
+
+    let correct = true;
+
+    //8. pour chaque lettre que l'on va taper (ou chaque élément du tableau de la phrase que l'on doit vérifier), je vais obtenir l'index de la valeur courante(caracSpan). C'est donc la valeur courante qui va changer.
+    arrPhrase.forEach((caracSpan, index) => {
+
+        //8b. je vais vérifier chaque caractère de la phrase qui a été tapée
+        const caractere = arrTest[index];
+
+        //8e. donc je vais d'abord comparer mes spans uniquement à ce qui est entré
+        if (caractere === undefined) {
+            caracSpan.classList.remove('correct');
+            caracSpan.classList.remove('incorrect');
+            correct = false;
+        }
+        //8c. dans un premier temps, à l'aide d'un IF, je vais vérifier si les caractères correspondent ou pas
+        //si les caractères entrés correspondent à mes spans, les spans passent en vert
+        else if (caractere === caracSpan.innerText) {
+            caracSpan.classList.add('correct');
+            caracSpan.classList.remove('incorrect');
+            //8d. sinon ils passent en rouge (MAIS jusque là, en cas d'erreur, c'est toute la phrase qui va passer en rouge)...
+        } else {
+            caracSpan.classList.remove('correct');
+            caracSpan.classList.add('incorrect');
+            correct = false;
+        }
+    })
+    //si j'arrive a passer toutes les conditions sans passer par un false alors j'affiche une nouvelle citation
+    if (correct) {
+        showNewPhrase();
+    }
+
+
+})
+
+
+
+
 
 
 
