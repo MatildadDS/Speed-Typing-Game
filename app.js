@@ -11,6 +11,7 @@ const phraseTest = document.querySelector('.phrase-test');
 //2. initialisation du temps et du score
 let chrono = 60;
 let score = 0;
+let phraseForScore; //10. Initialisation du score en fonction du temps de frappe de la phrase
 
 chronoDisplay.innerText = `Chrono : ${chrono}`;
 scoreDisplay.innerText = `Score : ${score}`;
@@ -44,10 +45,13 @@ async function showNewPhrase() {
     const phrase = results.content; //5c. je vais stocker la citation dans une variable phrase
     console.log(phrase);
 
+
+    //10. quand la phrase arrive de l'API, je mets sa longueur dans ma variable phraseForScore
+    phraseForScore = phrase.length;
     //5d. je vide la div où injecter les citations
     phraseToWrite.innerHTML = '';
 
-    //5e. je vais split chaque lettre des citations dans une case de tableau
+    //5e. je vais split chaque lettre des citations dans une case de tableau, pour les vérifier une à une à chaque entrée
     phrase.split('').forEach(carac => {
         // 5f. puis creer un span pour chaque caractère
         const caracSpan = document.createElement('span');
@@ -76,6 +80,7 @@ phraseTest.addEventListener('input', () => {
 
     //8. pour chaque lettre que l'on va taper (ou chaque élément du tableau de la phrase que l'on doit vérifier), je vais obtenir l'index de la valeur courante(caracSpan). C'est donc la valeur courante qui va changer.
     arrPhrase.forEach((caracSpan, index) => {
+        console.log(caracSpan);
 
         //8b. je vais vérifier chaque caractère de la phrase qui a été tapée
         const caractere = arrTest[index];
@@ -98,24 +103,11 @@ phraseTest.addEventListener('input', () => {
             correct = false;
         }
     })
-    //si j'arrive a passer toutes les conditions sans passer par un false alors j'affiche une nouvelle citation
+    //9. si j'arrive à passer toutes les conditions sans passer par un false alors j'affiche une nouvelle citation
     if (correct) {
         showNewPhrase();
+        //10. Affichage du score en fonction du temps de frappe
+        score += phraseForScore;
     }
-
-
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
 
