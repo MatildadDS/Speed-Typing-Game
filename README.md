@@ -1,5 +1,7 @@
 # Speed-Typing-Game
 
+https://matildadds.github.io/Speed-Typing-Game/
+
 Realization of a typing game in native JavaScript, step by step.
 This application displays :
 
